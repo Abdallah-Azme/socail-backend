@@ -12,3 +12,429 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  username         String    @unique
+  character_name   String
+  password         String
+  role             Role
+  server           Server
+  contact          String
+  character_gender Gender
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  gears            Gear[]
+  garment          Garment[]
+  pet              Pet[]
+  item             Item[]
+}
+
+model Gear {
+  id                String    @id @default(cuid())
+  title             String
+  description       String
+  gear_type         Equipment
+  gear_owner        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId            String
+  class             Class
+  element           Element
+  photo             String
+  max_element_value Int
+  price             Int
+  server            Server
+  status            Status
+  createdAt         DateTime  @default(now())
+  updateAt          DateTime  @updatedAt
+}
+
+model Garment {
+  id         String   @id @default(cuid())
+  photo      String
+  title      String
+  decription String
+  price      Int
+  server     Server
+  gender     Gender
+  status     Status
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+}
+
+model Pet {
+  id          String      @id @default(cuid())
+  pet_owner   User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  type        Pet_Type
+  price       Int
+  title       String
+  description String
+  star        Int
+  server      Server
+  status      Status
+  createAt    DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  photos      Pet_photo[]
+}
+
+model Item {
+  id          String   @id @default(cuid())
+  item_owner  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  photo       String
+  price       Int
+  title       String
+  description String
+  server      Server
+  status      Status
+  quantity    Int
+  cratedAt    DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Pet_photo {
+  id        String @id @default(cuid())
+  Pet_id    Pet    @relation(fields: [petId], references: [id], onDelete: Cascade)
+  petId     String
+  image_url String
+}
+
+enum Role {
+  PLAYER
+  ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum Status {
+  SOLD
+  AVAILABLE
+}
+
+enum Server {
+  NewYork_Toronto
+  LA_LasVegas
+  Cronus
+  EveGarden
+  ReturnHero
+  Minotaur
+  GreenMirage
+  GloryHall
+  SoulAltar
+  London
+  RoseHall
+  Lyra
+  Mocci
+  Dimenspace
+  Olympus
+  Ceremony
+  Jin
+  ElvenCity
+  Draconis
+  HeartLake
+  Avita
+  LostLand
+}
+
+enum Equipment {
+  NECKLACE
+  HELMET
+  WEAPON
+  BRACELET
+  BOOTS
+  ARMOR
+}
+
+enum Class {
+  MAGE
+  WARRIOR
+  NECROMANCER
+  PALADIN
+  VAMPIRE
+  SHADOWKNIGHT
+  SWORDMASTER
+  RANGER
+}
+
+enum Element {
+  WATER
+  WIND
+  EARTH
+  FIRE
+}
+
+enum Pet_Type {
+  ZHAO_YUN
+  ZHANG_FEI
+  MA_CHAO
+  HUANG_ZHONG
+  GUAN_YU
+  SERAPHINA
+  RAGNAR
+  MIGHTY_LORD_MINOTAUR
+  EOSTRE
+  YOUNG_PROPHET
+  DRAGON_PROPHET
+  DREAM_WIZARD_MOCCI
+  ETHEREAL_SPIRIT_MOCCI
+  DREAM_KEEPER
+  CHRONICLE_KEEPER
+  FATED_SWORD
+  ROSE_KNIGHT_TIFA
+  IMAGINATION_CLOUD
+  SPIRIT_DODO
+  GLORY_LULU
+  BAHAMUT
+  MAGIC_WINGS_HILL
+  GLASS_LAURA
+  EMERALD_PHIN
+  RAINBOW_DOG_SUGAR
+  BLACK_CHEETAH_CAESAR
+  SOLAR_KING_THOR
+  FORESTWALKER
+  DREAMFAIRY_LILLA
+  DREAMFAIRY_RUBY
+  ABYSS_DRAGON_RAJON
+  SAGE_WUKONG
+  KING_WUKONG
+  FANTASY_CATCARDUS
+  FROSTWOLF_GLADYS
+  FROSTWOLF_GHOST
+  DRAGON_DANOS
+  PHOENIX_IRINA
+  LION_KNIGHT_GRENTH
+  DEVOURER_HARBI
+  DEVIL_PUPPET
+  LORD_ALLENTALE
+  SWORDSOUL_ARAZO
+  DARK_SKULD
+  SKYROBBER_DAS
+  WITCH_CELICE
+  SHADOW_OF_KORD
+  GENERAL_SARVA
+  SILVER_KNIGHT_KUMMEL
+  WARLION_PHIL
+  ALPACANEMO
+  ALPACANOVA
+  FROST_ANTELOPE_PAINE
+  STAR_ANTELOPE_FAHN
+  CHRISTMAS_BEAR_AKAR
+  SKYBREAKER
+  DRAGON_SOUL
+  DEFENDER_SAIVE
+  EAGLE_SORRONDA
+  APHRODITE_FOX_LUCRECIA
+  VENUS_FOX_ALEXIA
+  GOLDEN_PEGASUS
+  CRYSTAL_PEGASUS
+  PEGASUS_PUMPKIN_CARRIAGE
+  GLOOM_DIEGO
+  GLORY_CITRA
+  FEATHER_GALINA
+  SPIRIT_MICAH
+  SPIRIT_SADIE
+  AURORA_VIOLET
+  WARRIOR_EASTON
+  MAGE_ARIA
+  ELF_NEVAEH
+  PHANTOM_KUBY
+  P_ATK_LAYLA
+  M_ATK_LAYLA
+  M_DEF_LAYLA
+  P_DEF_LAYLA
+  M_ATK_DEF_LAYLA
+  P_ATK_DEF_LAYLA
+  P_ATK_DYLAN
+  M_ATK_DYLAN
+  M_DEF_DYLAN
+  P_DEF_DYLAN
+  M_ATK_DEF_DYLAN
+  P_ATK_DEF_DYLAN
+  RAINBOW_PEGASUS
+  GREEN_WINGED_SNAKE
+  WHITE_WINGEDSNAKE
+  BEAR_FINNA
+  PUPPY_MARIO
+  SANA_SNOW
+  HERTZ_SNOW
+  DREAM_SLEIGH
+  AIDOS
+  LAIRD
+  ECHO
+  JEWEL
+  FERRIS
+  EINAR
+  SAGAR
+  SOCORRO
+  RADCLIFF
+  DUKE_HEINZ
+  WIZARD_GAGE
+  BLOOD_SOUL
+  SACHA
+  WALLY
+  NECRO_SPIRIT
+  YEDDA
+  HADES_DEFENDER
+  HADES_HEIR
+  OPHIR
+  FANTASY_EMISSARY
+  DRAGON_IAN
+  AURORA_MOUNT
+  DRAGON_HALE
+  LOOMING_EMISSARY
+  AZURE_MOUNT
+  FLAME_GUARDIAN
+  LIGHT_GUARDIAN
+  FAIRY_OLIVIA
+  TIDAL_GUARDIAN
+  EARTH_GUARDIAN
+  WATCHER_OREN
+  PIXIE
+  MAGE_PEPPY_LOVE_FALL
+  SHADOW_MAGE_LIZ
+  BLOOD_SAGE
+  MAGETINNA
+  HELLFIRE_PIKE
+  SIZZLE
+  EUDEMON_DIANA
+  EUDEMON_ADAM
+  BLOOD_PHANTOM
+  MAGEGOS
+  FAIRY_VANYA
+  MAGE_PIPY_LOVE_FALL
+  CALLANDRA
+  VALKYRIE
+  M_ATTACK
+  M_DEFENSE
+  VANQUISHER
+  GEPPY_LOVE_FALL
+  STORM_SOUL
+  WARRIOR_CUTE
+  NANA_LOVE_FALL
+  BERSERKER_KAHN
+  FAIRY_ROMAYN
+  VENUS_PHANTOM
+  REX
+  NEIL
+  SCRUNCH
+  AUSTIN
+  FLORA
+  LANIR
+  LOVEBIRD
+  VENUS_SAGE
+  ATTACK_DEFENSE
+  P_DEFENSE
+  P_ATTACK
+  P_DEFENSE_M_DEFENSE
+  SAINT_DRAGON
+  UNIVERSAL_O
+  UNIVERSAL_XO
+  SAINT_O
+  SAINT_XO
+  EIDOLON_O
+  FIRE_RAPTOR
+  REINDEER
+  SNOW_RAPTOR
+  RUBY_DINO
+  SAPPHIRE_DINO
+  FURIOUS_TIGER
+  WHITE_TIGER
+  COPPER_RHINO
+  BRONZE_RHINO
+  BANE_JABBERWOCK
+  DREAD_JABBERWOCK
+  FLORID_KYLIN
+  SAGE_KYLIN
+  ICY_UNICORN
+  GOLDEN_UNICORN
+  SAINT_BEAR
+  BLAZING_WING
+  GLACIAL_WING
+  EMBER_WYVERN
+  JADE_WYVERN
+  FROSTWIND
+  EMBERHEART
+  DRAGON_OZACHY
+  IMMORTAL_PHOENIX
+  BELLE
+  GENE
+  CYCLOPS
+  AZURE_WHALE
+  OCEANA
+  WINGED_SANDLER
+  BEAR_ZORRO
+  PANDA_PANTICA
+  MINARRA
+  KARAVOS
+  LULU
+  MAGE_DODO
+  MERCUTIO
+  OPHELIA
+  IMOGEN
+  BENVOLIO
+  SWEET_CATTLE
+  DUKE_CATTLE
+  HAPPY_CATTLE
+  JOY_CATTLE
+  DAINTY_TIGER
+  BOOM_TIGER
+  CUTE_TIGER
+  SNOW_TIGER
+  THUNDER_RABBIT
+  JAZZY_RABBIT
+  RABBIT_LORI
+  MOONLIGHT_RABBIT
+  SCORPIO_SAPPHIRE
+  SCORPIO_DAWN
+  SCORPIO_GARTH
+  SCORPIO_MILLO
+  LIBRA_SNOW
+  LIBRA_FLAME
+  LIBRA_DEANE
+  LIBRA_DILLON
+  AQUARIUS_GALAXY
+  AQUARIUS_CORAL
+  AQUARIUS_LAKI
+  AQUARIUS_NAYA
+  GEMINI_LIGHT
+  GEMINI_DARK
+  GEMINI_DOOM
+  GEMINI_GENESIS
+  PISCES_RAINBOW
+  PISCES_PHANTOM
+  PISCES_KATI
+  PISCES_KAMI
+  LEO_FLAME
+  LEO_ICE
+  LEO_MAGE
+  LEO_BERSERKER
+  SAGITTARIUS_THUNDER
+  SAGITTARIUS_BLIZZARD
+  SAGITTARIUS_BEHEMOTH
+  SAGITTARIUS_BRUTE
+  ASTRAL_CAPRICORN
+  CAPRICORN_DONNA
+  CAPRICORN_DINA
+  PALE_CANCER
+  GOLDEN_CANCER
+  CANCER_QUEEN
+  CANCER_PRINCESS
+  TESTY_TAURUS
+  WINTRY_TAURUS
+  TAURUS_FURIES
+  TAURUS_MARS
+  VIRGO_PLUME
+  VIRGO_FROST
+  VIRGO_SACHI
+  VIRGO_LENA
+  TWILIGHT_ARIES
+  GLACIAL_ARIES
+  ARIES_CARDY
+  ARIES_MUBA
+}
