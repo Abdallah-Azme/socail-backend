@@ -16,13 +16,13 @@ datasource db {
 model User {
   id               String    @id @default(cuid())
   email            String    @unique
-  username         String    @unique
-  character_name   String
+  username         String?   @unique
+  character_name   String?
   password         String
-  role             Role
-  server           Server
-  contact          String
-  character_gender Gender
+  role             Role      @default(PLAYER)
+  server           Server?
+  contact          String?
+  character_gender Gender?
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
   gears            Gear[]
