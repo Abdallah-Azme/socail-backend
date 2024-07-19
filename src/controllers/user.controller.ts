@@ -1,13 +1,12 @@
-import { asyncHandler } from "../utils/async-handler";
-import { createNewUser, findUserByEmail } from "../services/user.service";
 import bcrypt from "bcrypt";
 import { CookieOptions } from "express";
-import { signJwt, verifyJwt } from "../utils/jwt";
+import { createNewUser, findUserByEmail } from "../services/user.service";
+import { asyncHandler } from "../utils/async-handler";
+import { signJwt } from "../utils/jwt";
 
 export const userControllerSign = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await findUserByEmail(email);
-
   if (user) {
     try {
       const isPasswordCorrect = await bcrypt.compare(password, user.password);
@@ -15,8 +14,8 @@ export const userControllerSign = asyncHandler(async (req, res) => {
       if (isPasswordCorrect) {
         const accessToken = signJwt(user.email, 15 * 1000 * 60);
         const refreshToken = signJwt(user.email, 1000 * 60 * 60 * 24 * 365);
-        res.cookie("access_token", accessToken, accessTokenCookieOptions);
-        res.cookie("refresh_token", refreshToken, refreshTokenCookieOptions);
+        res.cookie("accessToken", accessToken, accessTokenCookieOptions);
+        res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
 
         return res.json({
           status: "Success",
@@ -35,8 +34,8 @@ export const userControllerSign = asyncHandler(async (req, res) => {
   const accessToken = signJwt(newUser.email, 15 * 1000 * 60);
   const refreshToken = signJwt(newUser.email, 1000 * 60 * 60 * 24 * 365);
 
-  res.cookie("access_token", accessToken, accessTokenCookieOptions);
-  res.cookie("refresh_token", refreshToken, refreshTokenCookieOptions);
+  res.cookie("accessToken", accessToken, accessTokenCookieOptions);
+  res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
 
   return res.json({
     status: "Success",
@@ -45,7 +44,17 @@ export const userControllerSign = asyncHandler(async (req, res) => {
   });
 });
 
-const accessTokenCookieOptions: CookieOptions = {
+export const userControllerLogout = asyncHandler((req, res) => {
+  res.cookie("accessToken", "", {
+    maxAge: -1,
+  });
+  res.cookie("refreshToken", "", {
+    maxAge: -1,
+  });
+  res.json({ status: "Success", message: "Logged out successfully" });
+});
+
+export const accessTokenCookieOptions: CookieOptions = {
   maxAge: 900000, // 15 mins
   httpOnly: true,
   domain: "localhost",
@@ -53,7 +62,7 @@ const accessTokenCookieOptions: CookieOptions = {
   sameSite: "lax",
   secure: false,
 };
-const refreshTokenCookieOptions: CookieOptions = {
+export const refreshTokenCookieOptions: CookieOptions = {
   maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
   httpOnly: true,
   domain: "localhost",
