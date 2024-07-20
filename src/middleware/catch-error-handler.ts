@@ -7,6 +7,8 @@ export const catchErrorHandler = (
   res: Response,
   next: NextFunction
 ) => {
+  console.log(error);
+  console.log(error.message);
   res
     .status(400)
     .json({ message: "Something went wrong, we are working on fixing it." });

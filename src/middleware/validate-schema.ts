@@ -7,6 +7,7 @@ export const validateSchema =
     try {
       schema.parse({
         body: req.body,
+        files: req.files,
         params: req.params,
         query: req.query,
       });
