@@ -1,14 +1,17 @@
 import express from "express";
 import {
   userControllerLogout,
-  userControllerSign,
+  userControllerSignin,
+  userControllerSignup,
 } from "../controllers/user.controller";
 import { validateSchema } from "../middleware/validate-schema";
-import { createUserSchema } from "../schemas/user.schema";
+import { createUserSchema, signinUserSchema } from "../schemas/user.schema";
 
 const userRoutes = express.Router();
 
-userRoutes.post("/login", validateSchema(createUserSchema), userControllerSign);
+userRoutes
+  .post("/signup", validateSchema(createUserSchema), userControllerSignup)
+  .post("/signin", validateSchema(signinUserSchema), userControllerSignin);
 userRoutes.post("/logout", userControllerLogout);
 
 export { userRoutes };

@@ -14,39 +14,38 @@ datasource db {
 }
 
 model User {
-  id               String    @id @default(cuid())
-  email            String    @unique
-  username         String?   @unique
-  character_name   String?
-  password         String
-  role             Role      @default(PLAYER)
-  server           Server?
-  contact          String?
-  character_gender Gender?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-  gears            Gear[]
-  garment          Garment[]
-  pet              Pet[]
-  item             Item[]
+  id            String    @id @default(cuid())
+  email         String    @unique
+  username      String    @unique
+  characterName String
+  password      String
+  role          Role      @default(PLAYER)
+  server        Server
+  contactInfo   String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  gears         Gear[]
+  garment       Garment[]
+  pet           Pet[]
+  item          Item[]
 }
 
 model Gear {
-  id                String    @id @default(cuid())
-  title             String
-  description       String
-  gear_type         Equipment
-  gear_owner        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId            String
-  class             Class
-  element           Element
-  photo             String
-  max_element_value Int
-  price             Int
-  server            Server
-  status            Status
-  createdAt         DateTime  @default(now())
-  updateAt          DateTime  @updatedAt
+  id              String    @id @default(cuid())
+  title           String
+  description     String
+  gearType        Equipment
+  gearOwner       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String
+  class           Class
+  element         Element
+  photo           String
+  maxElementValue Int
+  price           Int
+  server          Server
+  status          Status
+  createdAt       DateTime  @default(now())
+  updateAt        DateTime  @updatedAt
 }
 
 model Garment {
@@ -82,7 +81,7 @@ model Pet {
 
 model Item {
   id          String   @id @default(cuid())
-  item_owner  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  itemOwner   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
   photo       String
   price       Int
@@ -96,10 +95,10 @@ model Item {
 }
 
 model Pet_photo {
-  id        String @id @default(cuid())
-  Pet_id    Pet    @relation(fields: [petId], references: [id], onDelete: Cascade)
-  petId     String
-  image_url String
+  id       String @id @default(cuid())
+  PetId    Pet    @relation(fields: [petId], references: [id], onDelete: Cascade)
+  petId    String
+  imageUrl String
 }
 
 enum Role {

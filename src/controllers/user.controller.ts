@@ -1,47 +1,78 @@
 import bcrypt from "bcrypt";
-import { CookieOptions } from "express";
+import { CookieOptions, Request } from "express";
 import { createNewUser, findUserByEmail } from "../services/user.service";
 import { asyncHandler } from "../utils/async-handler";
 import { signJwt } from "../utils/jwt";
+import { CreateUserInput } from "../schemas/user.schema";
 
-export const userControllerSign = asyncHandler(async (req, res) => {
+export const userControllerSignup = asyncHandler(
+  async (req: Request<{}, {}, CreateUserInput["body"]>, res) => {
+    const { email, password, characterName, contactInfo, server, username } =
+      req.body;
+    const user = await findUserByEmail(email);
+    if (user) {
+      return res.status(409).json({
+        status: "Fail",
+        message: "There is an account under this email.",
+      });
+    }
+
+    const newUser = await createNewUser({
+      email,
+      password,
+      characterName,
+      contactInfo,
+      server,
+      username,
+    });
+
+    const accessToken = signJwt(newUser.email, 15 * 1000 * 60);
+    const refreshToken = signJwt(newUser.email, 1000 * 60 * 60 * 24 * 365);
+
+    res.cookie("accessToken", accessToken, accessTokenCookieOptions);
+    res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
+
+    return res.json({
+      status: "Success",
+      message: "Created a new user successfully.",
+      data: newUser,
+    });
+  }
+);
+
+export const userControllerSignin = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
   const user = await findUserByEmail(email);
-  if (user) {
-    try {
-      const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
-      if (isPasswordCorrect) {
-        const accessToken = signJwt(user.email, 15 * 1000 * 60);
-        const refreshToken = signJwt(user.email, 1000 * 60 * 60 * 24 * 365);
-        res.cookie("accessToken", accessToken, accessTokenCookieOptions);
-        res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
-
-        return res.json({
-          status: "Success",
-          message: "Welcome back.",
-          data: { email: user.email },
-        });
-      }
-    } catch (error) {}
+  if (!user) {
     return res
-      .status(401)
+      .status(400)
       .json({ status: "Fail", message: "Invalid credentials." });
   }
+  try {
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
-  const newUser = await createNewUser(email, password);
+    if (isPasswordCorrect) {
+      const accessToken = signJwt(user.email, 15 * 1000 * 60);
+      const refreshToken = signJwt(user.email, 1000 * 60 * 60 * 24 * 365);
+      res.cookie("accessToken", accessToken, accessTokenCookieOptions);
+      res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
 
-  const accessToken = signJwt(newUser.email, 15 * 1000 * 60);
-  const refreshToken = signJwt(newUser.email, 1000 * 60 * 60 * 24 * 365);
-
-  res.cookie("accessToken", accessToken, accessTokenCookieOptions);
-  res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
-
-  return res.json({
-    status: "Success",
-    message: "Created a new user successfully.",
-    data: newUser,
-  });
+      return res.json({
+        status: "Success",
+        message: "Welcome back.",
+        data: { email: user.email },
+      });
+    } else {
+      return res
+        .status(400)
+        .json({ status: "Fail", message: "Invalid credentials." });
+    }
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ status: "Fail", message: "Invalid credentials." });
+  }
 });
 
 export const userControllerLogout = asyncHandler((req, res) => {
