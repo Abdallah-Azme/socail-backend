@@ -1,4 +1,6 @@
-import z, { any, array, object, string } from "zod";
+import { Server } from "@prisma/client";
+import z, { any, array, object, string, TypeOf } from "zod";
+import { PetType, petTypeArray, servers } from "../constants";
 
 const fileSchema = z.object({
   mimetype: z.enum(["image/jpeg", "image/png", "image/webp"], {
@@ -28,8 +30,26 @@ const payload = {
       message: "The star has to be a number",
     }),
     title: string().max(50, "The title cannot be more than 50 characters."),
-    type: string().max(30, "The type cannot be more than 30 characters."),
-    server: string().max(30, "Enter a vail server."),
+    type: string()
+      .max(30, "The type cannot be more than 30 characters.")
+      .refine(
+        (type): type is PetType => {
+          return petTypeArray.includes(type);
+        },
+        {
+          message: "Invalid server",
+        }
+      ),
+    server: string()
+      .max(30, "Enter a vail server.")
+      .refine(
+        (server): server is Server => {
+          return servers.includes(server);
+        },
+        {
+          message: "Invalid server",
+        }
+      ),
     description: string().max(
       300,
       "The description cannot be more than 300 characters."
@@ -41,3 +61,7 @@ export const createPetSchema = object({
   ...payload,
   ...photoArraySchema,
 });
+
+const createPetBody = object({ ...payload });
+
+export type CreatePetSchema = TypeOf<typeof createPetBody>;

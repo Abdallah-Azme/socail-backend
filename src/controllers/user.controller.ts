@@ -5,7 +5,7 @@ import { asyncHandler } from "../utils/async-handler";
 import { signJwt } from "../utils/jwt";
 import { CreateUserInput } from "../schemas/user.schema";
 
-export const userControllerSignup = asyncHandler(
+export const userSignupHandler = asyncHandler(
   async (req: Request<{}, {}, CreateUserInput["body"]>, res) => {
     const { email, password, characterName, contactInfo, server, username } =
       req.body;
@@ -40,7 +40,7 @@ export const userControllerSignup = asyncHandler(
   }
 );
 
-export const userControllerSignin = asyncHandler(async (req, res, next) => {
+export const userSigninHandler = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
   const user = await findUserByEmail(email);
 
@@ -75,7 +75,7 @@ export const userControllerSignin = asyncHandler(async (req, res, next) => {
   }
 });
 
-export const userControllerLogout = asyncHandler((req, res) => {
+export const userLogoutHandler = asyncHandler((req, res) => {
   res.cookie("accessToken", "", {
     maxAge: -1,
   });

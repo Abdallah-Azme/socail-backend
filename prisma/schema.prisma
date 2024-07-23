@@ -34,46 +34,49 @@ model Gear {
   id              String    @id @default(cuid())
   title           String
   description     String
+  hasApproved     Boolean   @default(false)
   gearType        Equipment
   gearOwner       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
   class           Class
   element         Element
+  status          Status    @default(AVAILABLE)
   photo           String
   maxElementValue Int
   price           Int
   server          Server
-  status          Status
   createdAt       DateTime  @default(now())
   updateAt        DateTime  @updatedAt
 }
 
 model Garment {
-  id         String   @id @default(cuid())
-  photo      String
-  title      String
-  decription String
-  price      Int
-  server     Server
-  gender     Gender
-  status     Status
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String
+  id          String   @id @default(cuid())
+  photo       String
+  title       String
+  decription  String
+  price       Int
+  server      Server
+  hasApproved Boolean  @default(false)
+  gender      Gender
+  status      Status   @default(AVAILABLE)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  User        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
 }
 
 model Pet {
   id          String      @id @default(cuid())
-  pet_owner   User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  petOwner    User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
   type        Pet_Type
   price       Int
   title       String
   description String
   star        Int
+  hasApproved Boolean     @default(false)
   server      Server
-  status      Status
+  status      Status      @default(AVAILABLE)
   createAt    DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   photos      Pet_photo[]
@@ -88,7 +91,8 @@ model Item {
   title       String
   description String
   server      Server
-  status      Status
+  hasApproved Boolean  @default(false)
+  status      Status   @default(AVAILABLE)
   quantity    Int
   cratedAt    DateTime @default(now())
   updatedAt   DateTime @updatedAt
