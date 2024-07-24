@@ -53,10 +53,9 @@ export const getAllPets = ({
   cursor: string | undefined;
 }) => {
   return db.pet.findMany({
-    take: 10,
-    //@ts-ignore
-    // cursor: cursor ? { id: cursor } : undefined,
-    // skip: cursor ? 1 : 0,
+    take: limit,
+    cursor: cursor ? { id: cursor } : undefined,
+    skip: cursor ? 1 : 0,
     orderBy: {
       createAt: "desc",
     },
@@ -73,6 +72,41 @@ export const getAllPets = ({
         orderBy: {
           id: "asc",
         },
+        select: {
+          imageUrl: true,
+        },
+      },
+    },
+  });
+};
+
+export const getPetById = (id: string) => {
+  return db.pet.findFirst({
+    where: {
+      id,
+    },
+    select: {
+      id: true,
+      type: true,
+      price: true,
+      title: true,
+      description: true,
+      star: true,
+      hasApproved: true,
+      server: true,
+      status: true,
+      createAt: true,
+      updatedAt: true,
+      petOwner: {
+        select: {
+          id: true,
+          username: true,
+          characterName: true,
+          server: true,
+          contactInfo: true,
+        },
+      },
+      photos: {
         select: {
           imageUrl: true,
         },

@@ -5,7 +5,6 @@ import { signJwt, verifyJwt } from "../utils/jwt";
 export const deserializeUser = asyncHandler((req, res, next) => {
   const accessToken = req.cookies.accessToken;
   const refreshToken = req.cookies.refreshToken;
-
   if (!accessToken && !refreshToken) {
     return next();
   }
@@ -17,7 +16,9 @@ export const deserializeUser = asyncHandler((req, res, next) => {
       res.locals.email = decoded.email;
       return next();
     } else {
-      res.status(401).json({ status: "Fail", message: "Invalid access token" });
+      return res
+        .status(401)
+        .json({ status: "Fail", message: "Invalid access token" });
     }
   }
   if (!accessToken && refreshToken) {
@@ -30,7 +31,9 @@ export const deserializeUser = asyncHandler((req, res, next) => {
       res.locals.email = decoded.email;
       return next();
     } else {
-      res.status(401).json({ status: "Fail", message: "Invalid access token" });
+      return res
+        .status(401)
+        .json({ status: "Fail", message: "Invalid access token" });
     }
   }
   next();
