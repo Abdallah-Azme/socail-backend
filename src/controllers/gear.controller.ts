@@ -1,6 +1,6 @@
 import { Request } from "express";
 import { CreateGearSchema } from "../schemas/gear.schema";
-import { createGear, getAllGears } from "../services/gear.service";
+import { createGear, getAllGears, getGearById } from "../services/gear.service";
 import { asyncHandler } from "../utils/async-handler";
 import { uploadImages } from "../utils/upload-photo";
 import { CharacterClass, Element, Equipment, Server } from "@prisma/client";
@@ -60,12 +60,20 @@ export const getAllGearsHandler = asyncHandler(async (req, res, next) => {
   });
 });
 
-// export const getPetHandler = asyncHandler(async (req, res, next) => {
-//   const petId = req.params.petId as string;
-//   const pet = await getPetById(petId);
-//   return res.status(200).json({
-//     status: "success",
-//     message: "Fetched pet successfully",
-//     data: pet,
-//   });
-// });
+export const getGearHandler = asyncHandler(async (req, res, next) => {
+  const gearId = req.params.gearId as string;
+
+  const gear = await getGearById(gearId);
+
+  if (!gear) {
+    return res.status(404).json({
+      status: "fail",
+      message: "There is no gear available by this id.",
+    });
+  }
+  return res.status(200).json({
+    status: "success",
+    message: "Fetched gear successfully",
+    data: gear,
+  });
+});

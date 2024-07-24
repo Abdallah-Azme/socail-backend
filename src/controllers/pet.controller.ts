@@ -46,6 +46,12 @@ export const getAllPetsHandler = asyncHandler(async (req, res, next) => {
 export const getPetHandler = asyncHandler(async (req, res, next) => {
   const petId = req.params.petId as string;
   const pet = await getPetById(petId);
+  if (!pet) {
+    return res.status(404).json({
+      status: "fail",
+      message: "There is no pet available by this id.",
+    });
+  }
   return res.status(200).json({
     status: "success",
     message: "Fetched pet successfully",

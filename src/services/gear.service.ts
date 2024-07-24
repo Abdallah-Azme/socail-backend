@@ -76,37 +76,34 @@ export const getAllGears = ({
   });
 };
 
-// export const getPetById = (id: string) => {
-//   return db.pet.findFirst({
-//     where: {
-//       id,
-//     },
-//     select: {
-//       id: true,
-//       type: true,
-//       price: true,
-//       title: true,
-//       description: true,
-//       star: true,
-//       hasApproved: true,
-//       server: true,
-//       status: true,
-//       createAt: true,
-//       updatedAt: true,
-//       petOwner: {
-//         select: {
-//           id: true,
-//           username: true,
-//           characterName: true,
-//           server: true,
-//           contactInfo: true,
-//         },
-//       },
-//       photos: {
-//         select: {
-//           imageUrl: true,
-//         },
-//       },
-//     },
-//   });
-// };
+export const getGearById = (id: string) => {
+  return db.gear.findFirst({
+    where: {
+      id,
+    },
+    select: {
+      characterClass: true,
+      maxElementValue: true,
+      id: true,
+      gearType: true,
+      price: true,
+      title: true,
+      description: true,
+      element: true,
+      hasApproved: true,
+      server: true,
+      status: true,
+      createdAt: true,
+      photo: true,
+      gearOwner: {
+        select: {
+          id: true,
+          username: true,
+          characterName: true,
+          server: true,
+          contactInfo: true,
+        },
+      },
+    },
+  });
+};

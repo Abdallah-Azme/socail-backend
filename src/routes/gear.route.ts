@@ -2,6 +2,7 @@ import express from "express";
 import {
   createGearHandler,
   getAllGearsHandler,
+  getGearHandler,
 } from "../controllers/gear.controller";
 import { requiredUser } from "../middleware/required-user";
 import { validateSchema } from "../middleware/validate-schema";
@@ -10,8 +11,7 @@ import { upload } from "../utils/upload-photo";
 
 const gearRoutes = express.Router();
 gearRoutes.get("/", getAllGearsHandler);
-
-// gearRoutes.get("/:petId", getPetHandler);
+gearRoutes.get("/:gearId", getGearHandler);
 
 gearRoutes.post(
   "/",
