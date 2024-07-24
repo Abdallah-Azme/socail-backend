@@ -46,40 +46,35 @@ export const createGear = ({
   });
 };
 
-// export const getAllPets = ({
-//   limit,
-//   cursor,
-// }: {
-//   limit: number;
-//   cursor: string | undefined;
-// }) => {
-//   return db.pet.findMany({
-//     take: limit,
-//     cursor: cursor ? { id: cursor } : undefined,
-//     skip: cursor ? 1 : 0,
-//     orderBy: {
-//       createAt: "desc",
-//     },
-//     select: {
-//       id: true,
-//       title: true,
-//       description: true,
-//       server: true,
-//       price: true,
-//       type: true,
-//       createAt: true,
-//       photos: {
-//         take: 1,
-//         orderBy: {
-//           id: "asc",
-//         },
-//         select: {
-//           imageUrl: true,
-//         },
-//       },
-//     },
-//   });
-// };
+export const getAllGears = ({
+  limit,
+  cursor,
+}: {
+  limit: number;
+  cursor: string | undefined;
+}) => {
+  return db.gear.findMany({
+    take: limit,
+    cursor: cursor ? { id: cursor } : undefined,
+    skip: cursor ? 1 : 0,
+    orderBy: {
+      createdAt: "desc",
+    },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      server: true,
+      price: true,
+      gearType: true,
+      createdAt: true,
+      photo: true,
+      characterClass: true,
+      element: true,
+      maxElementValue: true,
+    },
+  });
+};
 
 // export const getPetById = (id: string) => {
 //   return db.pet.findFirst({

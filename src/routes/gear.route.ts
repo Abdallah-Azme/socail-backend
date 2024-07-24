@@ -1,20 +1,17 @@
 import express from "express";
 import {
-  createPetHandler,
-  getAllPetsHandler,
-  getPetHandler,
-} from "../controllers/pet.controller";
+  createGearHandler,
+  getAllGearsHandler,
+} from "../controllers/gear.controller";
 import { requiredUser } from "../middleware/required-user";
 import { validateSchema } from "../middleware/validate-schema";
-import { createPetSchema } from "../schemas/pet.schema";
-import { upload } from "../utils/upload-photo";
 import { createGearSchema } from "../schemas/gear.schema";
-import { createGearHandler } from "../controllers/gear.controller";
+import { upload } from "../utils/upload-photo";
 
 const gearRoutes = express.Router();
+gearRoutes.get("/", getAllGearsHandler);
 
 // gearRoutes.get("/:petId", getPetHandler);
-// gearRoutes.get("/", getAllPetsHandler);
 
 gearRoutes.post(
   "/",
