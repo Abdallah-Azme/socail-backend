@@ -31,22 +31,22 @@ model User {
 }
 
 model Gear {
-  id              String    @id @default(cuid())
+  id              String         @id @default(cuid())
   title           String
   description     String
-  hasApproved     Boolean   @default(false)
+  hasApproved     Boolean        @default(false)
   gearType        Equipment
-  gearOwner       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gearOwner       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
-  class           Class
+  characterClass  CharacterClass
   element         Element
-  status          Status    @default(AVAILABLE)
+  status          Status         @default(AVAILABLE)
   photo           String
   maxElementValue Int
   price           Int
   server          Server
-  createdAt       DateTime  @default(now())
-  updateAt        DateTime  @updatedAt
+  createdAt       DateTime       @default(now())
+  updateAt        DateTime       @updatedAt
 }
 
 model Garment {
@@ -154,7 +154,7 @@ enum Equipment {
   ARMOR
 }
 
-enum Class {
+enum CharacterClass {
   MAGE
   WARRIOR
   NECROMANCER

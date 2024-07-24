@@ -13,7 +13,7 @@ export const validateSchema =
       });
       next();
     } catch (error: any) {
-      res.json({ status: "Fail", message: formatZodErrors(error) });
+      res.status(400).json({ status: "Fail", message: formatZodErrors(error) });
     }
   };
 
