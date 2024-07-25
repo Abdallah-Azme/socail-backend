@@ -7,7 +7,6 @@ import { CharacterClass, Element, Equipment, Server } from "@prisma/client";
 
 export const createGearHandler = asyncHandler(
   async (req: Request<{}, {}, CreateGearSchema["body"]>, res) => {
-    console.log("Gear route handler got called");
     const { description, maxElementValue, price, title } = req.body;
 
     // stupid casting

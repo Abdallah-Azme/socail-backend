@@ -50,19 +50,19 @@ model Gear {
 }
 
 model Garment {
-  id          String   @id @default(cuid())
-  photo       String
-  title       String
-  decription  String
-  price       Int
-  server      Server
-  hasApproved Boolean  @default(false)
-  gender      Gender
-  status      Status   @default(AVAILABLE)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  User        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String
+  id           String   @id @default(cuid())
+  photo        String
+  title        String
+  description  String
+  price        Int
+  server       Server
+  hasApproved  Boolean  @default(false)
+  gender       Gender
+  status       Status   @default(AVAILABLE)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  garmentOwner User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
 }
 
 model Pet {

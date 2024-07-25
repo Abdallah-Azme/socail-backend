@@ -33,9 +33,6 @@ export const elementTypeArray: string[] = Object.values(Element);
 export const equipmentTypeArray: string[] = Object.values(Equipment);
 export const characterClassTypeArray: string[] = Object.values(CharacterClass);
 
-// console.log({ Element });
-// console.log({ Equipment });
-// console.log({ CharacterClass });
 const fileSchema = z.object({
   mimetype: z.enum(["image/jpeg", "image/png", "image/webp"], {
     message: "Sorry, only jpeg, png, and webp formats are acceptable",

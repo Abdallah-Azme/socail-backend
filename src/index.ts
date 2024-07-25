@@ -10,6 +10,7 @@ import { petRoutes } from "./routes/pet.route";
 import { userRoutes } from "./routes/user.route";
 import bodyParser from "body-parser";
 import { gearRoutes } from "./routes/gear.route";
+import { garmentRoutes } from "./routes/garment.route";
 config();
 
 const app = express();
@@ -35,6 +36,7 @@ app.use(deserializeUser);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/pets", petRoutes);
 app.use("/api/v1/gears", gearRoutes);
+app.use("/api/v1/garments", garmentRoutes);
 
 app.all("*", notFoundHandler);
 
