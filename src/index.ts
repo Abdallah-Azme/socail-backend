@@ -11,6 +11,7 @@ import { userRoutes } from "./routes/user.route";
 import bodyParser from "body-parser";
 import { gearRoutes } from "./routes/gear.route";
 import { garmentRoutes } from "./routes/garment.route";
+import { itemRoutes } from "./routes/item.route";
 config();
 
 const app = express();
@@ -37,6 +38,7 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/pets", petRoutes);
 app.use("/api/v1/gears", gearRoutes);
 app.use("/api/v1/garments", garmentRoutes);
+app.use("/api/v1/items", itemRoutes);
 
 app.all("*", notFoundHandler);
 
