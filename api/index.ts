@@ -17,21 +17,33 @@ config();
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://e-socail-trade.vercel.app",
+];
+
+//middlewares
+app.use(
+  cors({
+    origin: (
+      origin: string | undefined,
+      callback: (err: Error | null, allow?: boolean) => void
+    ) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-//middlewares
-app.use(
-  cors({
-    credentials: true,
-    origin:
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:3000"
-        : "https://e-socail-trade.vercel.app",
-  })
-);
+
 app.use(cookieParser());
 
 app.use(express.json());
