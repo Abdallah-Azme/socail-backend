@@ -26,7 +26,10 @@ cloudinary.config({
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin:
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : "https://e-socail-trade.vercel.app",
   })
 );
 app.use(cookieParser());
