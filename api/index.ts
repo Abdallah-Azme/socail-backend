@@ -17,25 +17,19 @@ config();
 
 const app = express();
 
-// const allowedOrigins = [
-//   "http://localhost:3000",
-//   "https://e-socail-trade.vercel.app",
-// ];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://e-socail-trade.vercel.app",
+];
 
-//middlewares
-// app.use(
-//   cors({
-//     origin: "https://e-socail-trade.vercel.app",
-//     credentials: true,
-//   })
-// );
-//TODO  test for cors and this need to delete asap
+// middlewares
 app.use(
   cors({
-    origin: "*", // Allow all origins for testing
+    origin: "https://e-socail-trade.vercel.app",
     credentials: true,
   })
 );
+// TODO  test for cors and this need to delete asap
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
