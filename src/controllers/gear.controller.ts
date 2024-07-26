@@ -31,7 +31,6 @@ export const createGearHandler = asyncHandler(
       gearType,
       element,
     });
-    console.log({ newGear });
     3;
     return res.status(201).json({
       status: "success",
@@ -44,13 +43,10 @@ export const createGearHandler = asyncHandler(
 export const getAllGearsHandler = asyncHandler(async (req, res, next) => {
   const cursor =
     req.query.cursor === "undefined" ? undefined : (req.query.cursor as string);
-  console.log({ cursor });
   const limit = 2;
   //@ts-ignore
   const gears = await getAllGears({ limit, cursor });
-  console.log({ gears });
   const nextCursor = gears.length === limit ? gears[limit - 1].id : null;
-  console.log({ nextCursor });
   return res.status(200).json({
     status: "success",
     message: "Fetched pets successfully",

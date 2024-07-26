@@ -30,7 +30,6 @@ export const createGarmentHandler = asyncHandler(
       photo: imageUrl,
       gender,
     });
-    console.log({ newGarment });
     3;
     return res.status(201).json({
       status: "success",
@@ -43,13 +42,10 @@ export const createGarmentHandler = asyncHandler(
 export const getAllGarmentsHandler = asyncHandler(async (req, res, next) => {
   const cursor =
     req.query.cursor === "undefined" ? undefined : (req.query.cursor as string);
-  console.log({ cursor });
   const limit = 2;
   //@ts-ignore
   const garments = await getAllGarments({ limit, cursor });
-  console.log({ garments });
   const nextCursor = garments.length === limit ? garments[limit - 1].id : null;
-  console.log({ nextCursor });
   return res.status(200).json({
     status: "success",
     message: "Fetched pets successfully",

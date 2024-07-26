@@ -8,8 +8,6 @@ export const catchErrorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(error);
-  console.log(error.message);
 
   // catch multer error
   if (error instanceof multer.MulterError) {

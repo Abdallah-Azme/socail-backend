@@ -12,11 +12,12 @@ import { createItemSchema } from "../schemas/item.schema";
 import {
   createItemHandler,
   getAllItemsHandler,
+  getItemHandler,
 } from "../controllers/item.controller";
 
 const itemRoutes = express.Router();
 itemRoutes.get("/", getAllItemsHandler);
-// itemRoutes.get("/:itemId", getGearHandler);
+itemRoutes.get("/:itemId", getItemHandler);
 
 itemRoutes.post(
   "/",
