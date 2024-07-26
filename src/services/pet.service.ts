@@ -81,7 +81,7 @@ export const getAllPets = ({
 };
 
 export const getPetById = (id: string) => {
-  return db.pet.findFirst({
+  return db.pet.findUnique({
     where: {
       id,
     },

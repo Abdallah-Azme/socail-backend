@@ -77,7 +77,7 @@ export const getAllGears = ({
 };
 
 export const getGearById = (id: string) => {
-  return db.gear.findFirst({
+  return db.gear.findUnique({
     where: {
       id,
     },

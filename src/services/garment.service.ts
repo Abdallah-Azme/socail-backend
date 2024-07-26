@@ -63,7 +63,7 @@ export const getAllGarments = ({
 };
 
 export const getGarmentById = (id: string) => {
-  return db.garment.findFirst({
+  return db.garment.findUnique({
     where: {
       id,
     },

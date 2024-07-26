@@ -1,11 +1,9 @@
+import { Server } from "@prisma/client";
 import { Request } from "express";
-import { CreateGearSchema } from "../schemas/gear.schema";
-import { createGear, getAllGears, getGearById } from "../services/gear.service";
+import { CreateItemSchema } from "../schemas/item.schema";
+import { createItem, getAllItems } from "../services/item.service";
 import { asyncHandler } from "../utils/async-handler";
 import { uploadImages } from "../utils/upload-photo";
-import { CharacterClass, Element, Equipment, Server } from "@prisma/client";
-import { CreateItemSchema } from "../schemas/item.schema";
-import { createItem } from "../services/item.service";
 
 export const createItemHandler = asyncHandler(
   async (req: Request<{}, {}, CreateItemSchema["body"]>, res) => {
@@ -41,23 +39,23 @@ export const createItemHandler = asyncHandler(
   }
 );
 
-// export const getAllGearsHandler = asyncHandler(async (req, res, next) => {
-//   const cursor =
-//     req.query.cursor === "undefined" ? undefined : (req.query.cursor as string);
-//   console.log({ cursor });
-//   const limit = 2;
-//   //@ts-ignore
-//   const gears = await getAllGears({ limit, cursor });
-//   console.log({ gears });
-//   const nextCursor = gears.length === limit ? gears[limit - 1].id : null;
-//   console.log({ nextCursor });
-//   return res.status(200).json({
-//     status: "success",
-//     message: "Fetched pets successfully",
-//     data: gears,
-//     nextCursor,
-//   });
-// });
+export const getAllItemsHandler = asyncHandler(async (req, res, next) => {
+  const cursor =
+    req.query.cursor === "undefined" ? undefined : (req.query.cursor as string);
+  console.log({ cursor });
+  const limit = 2;
+  //@ts-ignore
+  const items = await getAllItems({ limit, cursor });
+  console.log({ items });
+  const nextCursor = items.length === limit ? items[limit - 1].id : null;
+  console.log({ nextCursor });
+  return res.status(200).json({
+    status: "success",
+    message: "Fetched pets successfully",
+    data: items,
+    nextCursor,
+  });
+});
 
 // export const getGearHandler = asyncHandler(async (req, res, next) => {
 //   const gearId = req.params.gearId as string;

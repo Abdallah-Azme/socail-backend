@@ -9,10 +9,13 @@ import { validateSchema } from "../middleware/validate-schema";
 import { createGearSchema } from "../schemas/gear.schema";
 import { upload } from "../utils/upload-photo";
 import { createItemSchema } from "../schemas/item.schema";
-import { createItemHandler } from "../controllers/item.controller";
+import {
+  createItemHandler,
+  getAllItemsHandler,
+} from "../controllers/item.controller";
 
 const itemRoutes = express.Router();
-// itemRoutes.get("/", getAllGearsHandler);
+itemRoutes.get("/", getAllItemsHandler);
 // itemRoutes.get("/:itemId", getGearHandler);
 
 itemRoutes.post(
