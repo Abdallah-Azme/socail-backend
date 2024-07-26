@@ -17,10 +17,10 @@ config();
 
 const app = express();
 
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://e-socail-trade.vercel.app",
-];
+// const allowedOrigins = [
+//   "http://localhost:3000",
+//   "https://e-socail-trade.vercel.app",
+// ];
 
 //middlewares
 // app.use(
