@@ -25,18 +25,19 @@ const allowedOrigins = [
 //middlewares
 app.use(
   cors({
-    origin: (
-      origin: string | undefined,
-      callback: (err: Error | null, allow?: boolean) => void
-    ) => {
+    origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
       }
     },
+    credentials: true, // Allow credentials if necessary
+    optionsSuccessStatus: 200, // Some legacy browsers choke on 204
   })
 );
+
+app.options("*", cors());
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
