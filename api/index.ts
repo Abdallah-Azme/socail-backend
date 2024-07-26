@@ -23,9 +23,16 @@ const allowedOrigins = [
 ];
 
 //middlewares
+// app.use(
+//   cors({
+//     origin: "https://e-socail-trade.vercel.app",
+//     credentials: true,
+//   })
+// );
+//TODO  test for cors and this need to delete asap
 app.use(
   cors({
-    origin: "https://e-socail-trade.vercel.app",
+    origin: "*", // Allow all origins for testing
     credentials: true,
   })
 );
