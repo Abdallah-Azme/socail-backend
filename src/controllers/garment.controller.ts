@@ -3,7 +3,11 @@ import { asyncHandler } from "../utils/async-handler";
 import { CreateGarmentSchema } from "../schemas/garment.schema";
 import { Gender, Server } from "@prisma/client";
 import { uploadImages } from "../utils/upload-photo";
-import { createGarment } from "../services/garment.service";
+import {
+  createGarment,
+  getAllGarments,
+  getGarmentById,
+} from "../services/garment.service";
 
 export const createGarmentHandler = asyncHandler(
   async (req: Request<{}, {}, CreateGarmentSchema["body"]>, res) => {
@@ -36,38 +40,38 @@ export const createGarmentHandler = asyncHandler(
   }
 );
 
-// export const getAllGearsHandler = asyncHandler(async (req, res, next) => {
-//   const cursor =
-//     req.query.cursor === "undefined" ? undefined : (req.query.cursor as string);
-//   console.log({ cursor });
-//   const limit = 2;
-//   //@ts-ignore
-//   const gears = await getAllGears({ limit, cursor });
-//   console.log({ gears });
-//   const nextCursor = gears.length === limit ? gears[limit - 1].id : null;
-//   console.log({ nextCursor });
-//   return res.status(200).json({
-//     status: "success",
-//     message: "Fetched pets successfully",
-//     data: gears,
-//     nextCursor,
-//   });
-// });
+export const getAllGarmentsHandler = asyncHandler(async (req, res, next) => {
+  const cursor =
+    req.query.cursor === "undefined" ? undefined : (req.query.cursor as string);
+  console.log({ cursor });
+  const limit = 2;
+  //@ts-ignore
+  const garments = await getAllGarments({ limit, cursor });
+  console.log({ garments });
+  const nextCursor = garments.length === limit ? garments[limit - 1].id : null;
+  console.log({ nextCursor });
+  return res.status(200).json({
+    status: "success",
+    message: "Fetched pets successfully",
+    data: garments,
+    nextCursor,
+  });
+});
 
-// export const getGearHandler = asyncHandler(async (req, res, next) => {
-//   const gearId = req.params.gearId as string;
+export const getGarmentHandler = asyncHandler(async (req, res, next) => {
+  const garmentId = req.params.garmentId as string;
 
-//   const gear = await getGearById(gearId);
+  const garment = await getGarmentById(garmentId);
 
-//   if (!gear) {
-//     return res.status(404).json({
-//       status: "fail",
-//       message: "There is no gear available by this id.",
-//     });
-//   }
-//   return res.status(200).json({
-//     status: "success",
-//     message: "Fetched gear successfully",
-//     data: gear,
-//   });
-// });
+  if (!garment) {
+    return res.status(404).json({
+      status: "fail",
+      message: "There is no gear available by this id.",
+    });
+  }
+  return res.status(200).json({
+    status: "success",
+    message: "Fetched gear successfully",
+    data: garment,
+  });
+});

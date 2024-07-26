@@ -9,11 +9,15 @@ import { validateSchema } from "../middleware/validate-schema";
 import { createGearSchema } from "../schemas/gear.schema";
 import { upload } from "../utils/upload-photo";
 import { createGarmentSchema } from "../schemas/garment.schema";
-import { createGarmentHandler } from "../controllers/garment.controller";
+import {
+  createGarmentHandler,
+  getAllGarmentsHandler,
+  getGarmentHandler,
+} from "../controllers/garment.controller";
 
 const garmentRoutes = express.Router();
-// garmentRoutes.get("/", getAllGearsHandler);
-// garmentRoutes.get("/:gearId", getGearHandler);
+garmentRoutes.get("/", getAllGarmentsHandler);
+garmentRoutes.get("/:garmentId", getGarmentHandler);
 
 garmentRoutes.post(
   "/",
