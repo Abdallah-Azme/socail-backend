@@ -23,13 +23,13 @@ const allowedOrigins = [
 ];
 
 // middlewares
+
 app.use(
   cors({
-    origin: "https://e-socail-trade.vercel.app",
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
-// TODO  test for cors and this need to delete asap
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,

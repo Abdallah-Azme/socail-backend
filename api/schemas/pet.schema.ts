@@ -37,11 +37,11 @@ const payload = {
           return petTypeArray.includes(type);
         },
         {
-          message: "Invalid server",
+          message: "Invalid pet type.",
         }
       ),
     server: string()
-      .max(30, "Enter a vail server.")
+      .max(30, "Enter a valid server.")
       .refine(
         (server): server is Server => {
           return servers.includes(server);

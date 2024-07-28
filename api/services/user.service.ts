@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { db } from "../utils/db";
 import { Server } from "@prisma/client";
 
-export const findUserByEmail = (email: string) => {
+export const getUserByEmail = (email: string) => {
   return db.user.findUnique({
     where: { email },
   });
@@ -41,6 +41,20 @@ export const createNewUser = async ({
       contactInfo: true,
       server: true,
       username: true,
+    },
+  });
+};
+
+export const getUserById = (userId: string) => {
+  return db.user.findUnique({
+    where: { id: userId },
+    select: {
+      password: false,
+      role: false,
+      characterName: true,
+      contactInfo: true,
+      username: true,
+      server: true,
     },
   });
 };

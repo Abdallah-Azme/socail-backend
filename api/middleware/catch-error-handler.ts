@@ -8,7 +8,7 @@ export const catchErrorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-
+  console.error(error.message);
   // catch multer error
   if (error instanceof multer.MulterError) {
     if (error.code === "LIMIT_UNEXPECTED_FILE") {

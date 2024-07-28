@@ -31,7 +31,7 @@ const photoArraySchema = {
 const payload = {
   body: z.object({
     price: z.string().refine((val) => !isNaN(Number(val)), {
-      message: "The price has to be a number",
+      message: "The price has to be a number.",
     }),
     title: z.string().max(50, "The title cannot be more than 50 characters."),
     server: z

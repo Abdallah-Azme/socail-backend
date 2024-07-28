@@ -18,7 +18,7 @@ export const deserializeUser = asyncHandler((req, res, next) => {
     } else {
       return res
         .status(401)
-        .json({ status: "Fail", message: "Invalid access token" });
+        .json({ status: "fail", message: "Invalid access token" });
     }
   }
   if (!accessToken && refreshToken) {
@@ -33,7 +33,7 @@ export const deserializeUser = asyncHandler((req, res, next) => {
     } else {
       return res
         .status(401)
-        .json({ status: "Fail", message: "Invalid access token" });
+        .json({ status: "fail", message: "Invalid access token" });
     }
   }
   next();

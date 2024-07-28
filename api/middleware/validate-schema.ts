@@ -17,11 +17,9 @@ export const validateSchema =
     }
   };
 
-const formatZodErrors = (
-  error: ZodError
-): { path: string; message: string }[] => {
-  return error.errors.map((issue: ZodIssue) => ({
-    path: issue.path.join("."),
-    message: issue.message,
-  }));
+const formatZodErrors = (error: ZodError): string => {
+  return error.errors
+
+    .map((issue: ZodIssue) => `${issue.path.at(1)}: ${issue.message}`)
+    .join("; ");
 };

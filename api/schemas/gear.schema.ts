@@ -64,7 +64,7 @@ const payload = {
       .refine(
         (characterClass) => characterClassTypeArray.includes(characterClass),
         {
-          message: "Invalid server",
+          message: "Invalid character class",
         }
       ),
     element: z
